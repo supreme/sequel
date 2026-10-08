@@ -1,0 +1,142 @@
+{
+  "name": "sequel",
+  "displayName": "Sequel",
+  "description": "Atom-style SQL syntax highlighting inside strings: sql`...` templates and string literals that start with SELECT, INSERT, UPDATE, ... in JavaScript, TypeScript, Python, Go, Java and C#.",
+  "version": "0.1.0",
+  "publisher": "sandrews",
+  "license": "MIT",
+  "author": "Stephen Andrews",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/supreme/sequel.git"
+  },
+  "bugs": {
+    "url": "https://github.com/supreme/sequel/issues"
+  },
+  "homepage": "https://github.com/supreme/sequel#readme",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "sql",
+    "inline",
+    "embedded",
+    "syntax",
+    "highlighting",
+    "template literal"
+  ],
+  "scripts": {
+    "build": "node scripts/build-grammars.mjs",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "package": "npm test && npx --yes @vscode/vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.2.0"
+  },
+  "contributes": {
+    "grammars": [
+      {
+        "injectTo": [
+          "source.js"
+        ],
+        "scopeName": "sequel.injection.js",
+        "path": "./syntaxes/sequel.js.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.sql": "sql",
+          "meta.embedded.line.js": "javascript"
+        }
+      },
+      {
+        "injectTo": [
+          "source.js.jsx"
+        ],
+        "scopeName": "sequel.injection.js.jsx",
+        "path": "./syntaxes/sequel.js.jsx.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.sql": "sql",
+          "meta.embedded.line.js.jsx": "javascriptreact"
+        }
+      },
+      {
+        "injectTo": [
+          "source.ts"
+        ],
+        "scopeName": "sequel.injection.ts",
+        "path": "./syntaxes/sequel.ts.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.sql": "sql",
+          "meta.embedded.line.ts": "typescript"
+        }
+      },
+      {
+        "injectTo": [
+          "source.tsx"
+        ],
+        "scopeName": "sequel.injection.tsx",
+        "path": "./syntaxes/sequel.tsx.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.sql": "sql",
+          "meta.embedded.line.tsx": "typescriptreact"
+        }
+      },
+      {
+        "injectTo": [
+          "source.python"
+        ],
+        "scopeName": "sequel.injection.python",
+        "path": "./syntaxes/sequel.python.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.sql": "sql",
+          "meta.interpolation.sequel.python": "python"
+        }
+      },
+      {
+        "injectTo": [
+          "source.python"
+        ],
+        "scopeName": "sequel.injection.python.arguments",
+        "path": "./syntaxes/sequel.python.arguments.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.sql": "sql",
+          "meta.interpolation.sequel.python": "python"
+        }
+      },
+      {
+        "injectTo": [
+          "source.go"
+        ],
+        "scopeName": "sequel.injection.go",
+        "path": "./syntaxes/sequel.go.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.sql": "sql"
+        }
+      },
+      {
+        "injectTo": [
+          "source.java"
+        ],
+        "scopeName": "sequel.injection.java",
+        "path": "./syntaxes/sequel.java.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.sql": "sql"
+        }
+      },
+      {
+        "injectTo": [
+          "source.cs"
+        ],
+        "scopeName": "sequel.injection.cs",
+        "path": "./syntaxes/sequel.cs.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.sql": "sql",
+          "meta.interpolation.cs": "csharp",
+          "meta.embedded.interpolation.cs": "csharp"
+        }
+      }
+    ]
+  }
+}
