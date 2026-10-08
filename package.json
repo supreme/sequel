@@ -2,7 +2,7 @@
   "name": "sequel",
   "displayName": "Sequel",
   "description": "Atom-style SQL syntax highlighting inside strings: sql`...` templates and string literals that start with SELECT, INSERT, UPDATE, ... in JavaScript, TypeScript, Python, Go, Java and C#.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "sandrews",
   "license": "MIT",
   "author": "Stephen Andrews",

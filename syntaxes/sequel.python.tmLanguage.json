@@ -897,6 +897,126 @@
       ]
     },
     {
+      "begin": "(?<=\\S)[ \\t]*(?<![\\w])(r)(\"\"\")(?=\\s*$)",
+      "beginCaptures": {
+        "1": {
+          "name": "string.regexp.quoted.multi.python storage.type.string.python"
+        },
+        "2": {
+          "name": "string.regexp.quoted.multi.python punctuation.definition.string.begin.python"
+        }
+      },
+      "end": "(\"\"\")",
+      "endCaptures": {
+        "1": {
+          "name": "string.regexp.quoted.multi.python punctuation.definition.string.end.python"
+        }
+      },
+      "name": "meta.sequel.deferred",
+      "patterns": [
+        {
+          "begin": "^(?=\\s*(?:(?:SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|WITH|REPLACE|MERGE|TRUNCATE|EXPLAIN|GRANT|REVOKE)\\b|--))",
+          "end": "(?=\"\"\")",
+          "contentName": "meta.embedded.block.sql meta.sequel.python.raw.multi",
+          "patterns": [
+            {
+              "include": "source.python#string-raw-guts"
+            },
+            {
+              "match": "(--)(?:(?!\"\"\").)*",
+              "name": "comment.line.double-dash.sql",
+              "captures": {
+                "1": {
+                  "name": "punctuation.definition.comment.sql"
+                }
+              }
+            },
+            {
+              "begin": "/\\*",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.comment.sql"
+                }
+              },
+              "end": "\\*/|(?=\"\"\")",
+              "endCaptures": {
+                "0": {
+                  "name": "punctuation.definition.comment.sql"
+                }
+              },
+              "name": "comment.block.sql",
+              "patterns": [
+                {
+                  "include": "source.python#string-raw-guts"
+                }
+              ]
+            },
+            {
+              "begin": "'",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.string.begin.sql"
+                }
+              },
+              "end": "(')(?!')|(?=\"\"\")",
+              "endCaptures": {
+                "1": {
+                  "name": "punctuation.definition.string.end.sql"
+                }
+              },
+              "name": "string.quoted.single.sql",
+              "patterns": [
+                {
+                  "include": "source.python#string-raw-guts"
+                },
+                {
+                  "match": "''",
+                  "name": "constant.character.escape.sql"
+                }
+              ]
+            },
+            {
+              "begin": "`",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.string.begin.sql"
+                }
+              },
+              "end": "(`)(?!`)|(?=\"\"\")",
+              "endCaptures": {
+                "1": {
+                  "name": "punctuation.definition.string.end.sql"
+                }
+              },
+              "name": "string.quoted.other.backtick.sql",
+              "patterns": [
+                {
+                  "include": "source.python#string-raw-guts"
+                },
+                {
+                  "match": "``",
+                  "name": "constant.character.escape.sql"
+                }
+              ]
+            },
+            {
+              "include": "source.sql"
+            }
+          ]
+        },
+        {
+          "begin": "^(?=\\s*\\S)",
+          "end": "(?=\"\"\")",
+          "name": "string.regexp.quoted.multi.python",
+          "patterns": [
+            {
+              "include": "source.python#double-three-regexp-expression"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "begin": "(?<![\\w])([rR])(''')(?=\\s*(?:(?:SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|WITH|REPLACE|MERGE|TRUNCATE|EXPLAIN|GRANT|REVOKE)\\b(?:\\s+(?!''')\\S|\\s*$)|--\\s*(?i:sql)\\b))",
       "beginCaptures": {
         "1": {
@@ -1120,6 +1240,126 @@
             },
             {
               "include": "source.python#string-raw-guts"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "begin": "(?<=\\S)[ \\t]*(?<![\\w])(r)(''')(?=\\s*$)",
+      "beginCaptures": {
+        "1": {
+          "name": "string.regexp.quoted.multi.python storage.type.string.python"
+        },
+        "2": {
+          "name": "string.regexp.quoted.multi.python punctuation.definition.string.begin.python"
+        }
+      },
+      "end": "(''')",
+      "endCaptures": {
+        "1": {
+          "name": "string.regexp.quoted.multi.python punctuation.definition.string.end.python"
+        }
+      },
+      "name": "meta.sequel.deferred",
+      "patterns": [
+        {
+          "begin": "^(?=\\s*(?:(?:SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|WITH|REPLACE|MERGE|TRUNCATE|EXPLAIN|GRANT|REVOKE)\\b|--))",
+          "end": "(?=''')",
+          "contentName": "meta.embedded.block.sql meta.sequel.python.raw.multi",
+          "patterns": [
+            {
+              "include": "source.python#string-raw-guts"
+            },
+            {
+              "match": "(--)(?:(?!''').)*",
+              "name": "comment.line.double-dash.sql",
+              "captures": {
+                "1": {
+                  "name": "punctuation.definition.comment.sql"
+                }
+              }
+            },
+            {
+              "begin": "/\\*",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.comment.sql"
+                }
+              },
+              "end": "\\*/|(?=''')",
+              "endCaptures": {
+                "0": {
+                  "name": "punctuation.definition.comment.sql"
+                }
+              },
+              "name": "comment.block.sql",
+              "patterns": [
+                {
+                  "include": "source.python#string-raw-guts"
+                }
+              ]
+            },
+            {
+              "begin": "\"",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.string.begin.sql"
+                }
+              },
+              "end": "(\")(?!\")|(?=''')",
+              "endCaptures": {
+                "1": {
+                  "name": "punctuation.definition.string.end.sql"
+                }
+              },
+              "name": "string.quoted.double.sql",
+              "patterns": [
+                {
+                  "include": "source.python#string-raw-guts"
+                },
+                {
+                  "match": "\"\"",
+                  "name": "constant.character.escape.sql"
+                }
+              ]
+            },
+            {
+              "begin": "`",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.string.begin.sql"
+                }
+              },
+              "end": "(`)(?!`)|(?=''')",
+              "endCaptures": {
+                "1": {
+                  "name": "punctuation.definition.string.end.sql"
+                }
+              },
+              "name": "string.quoted.other.backtick.sql",
+              "patterns": [
+                {
+                  "include": "source.python#string-raw-guts"
+                },
+                {
+                  "match": "``",
+                  "name": "constant.character.escape.sql"
+                }
+              ]
+            },
+            {
+              "include": "source.sql"
+            }
+          ]
+        },
+        {
+          "begin": "^(?=\\s*\\S)",
+          "end": "(?=''')",
+          "name": "string.regexp.quoted.multi.python",
+          "patterns": [
+            {
+              "include": "source.python#single-three-regexp-expression"
             }
           ]
         }

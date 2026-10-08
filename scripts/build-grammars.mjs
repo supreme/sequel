@@ -282,15 +282,26 @@ function python() {
       };
       patterns.push(immediate(kind));
       if (multi) {
-        // MagicPython reads r'''...''' as a regular expression (R'''...''' is
-        // a raw string), so only SQL on the opening line overrides that.
-        const open = p.id === 'raw' ? `(?<![\\w])(R)(${q})` : kind.open;
-        // A string that starts its own line may be a docstring, which
-        // MagicPython wraps in an unnamed rule we can't see from a selector,
-        // so wait for code before it: `q = """`, `execute("""`.
-        patterns.push(deferred(kind, { open, lead: '(?<=\\S)[ \\t]*' }));
-        // Call arguments can't hold docstrings, so there it's safe.
-        inArguments.push(deferred(kind, { open }));
+        const variants = [{ kind, open: kind.open }];
+        if (p.id === 'raw') {
+          // MagicPython reads r'''...''' as a regular expression (R'''...'''
+          // is a raw string), so if no SQL follows, fall back to its regex
+          // rules rather than a plain raw string.
+          const regex = {
+            ...kind,
+            stringScope: 'string.regexp.quoted.multi.python',
+            plainGuts: [{ include: `source.python#${q[0] === '"' ? 'double' : 'single'}-three-regexp-expression` }],
+          };
+          variants.splice(0, 1, { kind, open: `(?<![\\w])(R)(${q})` }, { kind: regex, open: `(?<![\\w])(r)(${q})` });
+        }
+        for (const v of variants) {
+          // A string that starts its own line may be a docstring, which
+          // MagicPython wraps in an unnamed rule we can't see from a
+          // selector, so wait for code before it: `q = """`, `execute("""`.
+          patterns.push(deferred(v.kind, { open: v.open, lead: '(?<=\\S)[ \\t]*' }));
+          // Call arguments can't hold docstrings, so there it's safe.
+          inArguments.push(deferred(v.kind, { open: v.open }));
+        }
       }
     }
   }

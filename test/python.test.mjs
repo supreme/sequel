@@ -105,3 +105,15 @@ test('python: %s placeholders and the --sql marker', async () => {
   s.sql('VALUES', 'keyword.other');
   s.notSql('w');
 });
+
+test('python: lowercase r strings with SQL on the next line', async () => {
+  const s = await py(`a = r"""\n    SELECT id FROM t WHERE name ~ '\\d+'\n"""\ncur.execute(r'''\n    UPDATE t SET a = 1\n''')\nz = 1`);
+  s.sql('SELECT', 'keyword.other.DML.sql');
+  s.sql('UPDATE', 'keyword.other.DML.sql');
+  s.notSql('z');
+});
+
+test('python: lowercase r strings that are regexes stay regexes', async () => {
+  const s = await py('_OPT = r"""\n    (?P<option>.*?)\\s*(?P<vi>{d})\\s*$\n    """\nfoo(r"""\n  ^\\d+$\n""")\nz = 1');
+  await s.noSql();
+});

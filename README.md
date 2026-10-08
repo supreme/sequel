@@ -98,8 +98,8 @@ highlighted as SQL out of the box.
   code before them (`q = """`, `execute("""`) or the string is a function
   argument.
 - In Python, VS Code shows `r"""` with a lowercase `r` as a regular
-  expression. Sequel leaves those alone unless the SQL starts on the same line
-  as the quotes.
+  expression. Sequel highlights it as SQL when it starts with SQL, and leaves
+  the regex highlighting alone otherwise.
 
 ## Contributing
 
